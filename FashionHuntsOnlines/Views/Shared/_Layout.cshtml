@@ -1,0 +1,110 @@
+﻿@using FashionHuntsOnlines.Models.Home
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title -Fashion Hunt's Online</title>
+    @*@Styles.Render("~/Content/css")*@
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />*@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="~/Content/MyMainLayOut.css" rel="stylesheet" />
+
+
+
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-6">
+                <div class="logo">
+                    <h1><a href="@Url.Action("Index","Home")">Online <span>Fashion Hunt's</span></a></h1>
+                    <p>Hunt's</p>
+
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-6">
+                <div class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">Cart(3)<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            @if (Session["cart"] != null)
+                            {
+                                foreach (Item item in (List<Item>)Session["cart"])
+                                {
+                                    <li>
+                                       <a href="@Url.Action("RemoveFromCart","Home",new {productId=item.Product.ProductId })">@item.Product.ProductName (@item.Quantity) <i class="fa fa-times"></i> </a>
+                                    </li>
+
+                                }
+                            }
+
+                            <li class="divider"></li>
+                            <li><a href="@Url.Action("Checkout","Home")">Checkout</a></li>
+
+                        </ul>
+                    </li>
+                </div>
+
+
+               @* <div class="account">
+                    <ul >
+                        <li>
+                            <div class="hidden-xs">
+                                <h4><a>Call</a></h4>
+                                <p>92+3303911241</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>*@
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="nav-menus">
+                        <ul class="nav nav-pills">
+                            <li class="active"><a style="border-radius:initial;" href="#">Home</a></li>
+                            <li><a style="border-radius:initial;" href="#">Location</a></li>
+                            <li><a style="border-radius:initial;" href="#">About</a></li>
+
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        @RenderBody()
+        <hr style=" height: 1px; border: 0; background: linear-gradient(to right, #f00, #000000); " />
+        <footer>
+            <div class="row">
+                <div class="col-md-12 copyright">
+                    <div class="col-md-6 col-sm-6 copyright-left">
+                        <p>&copy; @DateTime.Now.Year - <a href="https://portfolio-eight-alpha-57.vercel.app/">Connect with developer. All right reserved.</a></p>
+                    </div>
+                    <div class="col-md-6 col-sm-6 copyright-right">
+                        <ul class="list-unstyled list-social">
+                            <li><a href="#" target="_blank"><i class="fa fa-facebook-square"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+   @* <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>*@
+
+   @RenderSection("scripts", required: false)
+</body>
+</html>
+@*@Html.Partial("_LoginPartial")*@

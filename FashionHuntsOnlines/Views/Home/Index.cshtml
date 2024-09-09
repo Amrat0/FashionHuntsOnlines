@@ -1,0 +1,128 @@
+﻿@model FashionHuntsOnlines.Models.Home.HomeIndexViewModel
+@using PagedList;
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+
+<div id="themeSlider" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#themeSlider" data-slide-to="0" class="active"></li>
+        <li data-target="#themeSlider" data-slide-to="1"></li>
+        @*<li data-target="#themeSlider" data-slide-to="2"></li>*@
+    </ol>
+
+    <div class="carousel-inner">
+        <div class="item active">
+
+            <div class="imgOverlay"></div>
+            <img style="width:100%; height:320px" src="~/Images/slide1.jpg" alt="First slide">
+            @*   <div class="carousel-caption">
+                    <h3>Gul Ahmed Collection</h3>
+                </div>*@
+        </div>
+        <div class="item">
+            <div class="imgOverlay"></div>
+            <img style="width:100%; height:320px" src="~/Images/slide2.jpg" alt="Second slide">
+            @* <div class="carousel-caption">
+                    <h3>Brownze</h3>
+                </div>*@
+        </div>
+
+    </div>
+
+    <a class="left carousel-control" href="#themeSlider" data-slide="prev">
+        <span class="fa fa-chevron-left"></span>
+    </a>
+    <a class="right carousel-control" href="#themeSlider" data-slide="next">
+        <span class="fa fa-chevron-right"></span>
+    </a>
+
+
+</div>
+
+<div class="olContent f1"><h2 style="color:black">Search Product/Category</h2></div>
+
+<form method="post" action="#ListOfProducts">
+    <div class="olSearch fr">
+        <input type="text" name="search" placeholder="Enter Keyword" class="inputComn houseText form-control" />
+        <div class="searchIcon">
+            <button type="submit" class="searchBtn" >
+                <img src="~/Images/searchIco.png" />
+            </button>
+        </div>
+    </div>
+</form>
+
+
+    <div id="ListOfProducts"  class="row">
+        <div class="col-md-12">
+            <div class="page-header">
+                <h2>Our Producrs <small>trends products</small></h2>
+
+            </div>
+        </div>
+    </div>
+
+
+
+<div class="row product-container">
+    @foreach (var item in Model.ListOfProducts)
+    {
+        <div class="col-md-3 col-sm-3 col-xs-6 " style="margin-bottom:8px;">
+            <div class="thumbnail product-item" style="height: 300px; ">
+                <img class="img-responsive" title="Click to view product detail's"
+                     style="width: 100%; height:160px;cursor: pointer;"
+                     src="~/ProductImg/@item.ProductImage" />
+                <div class="caption" style="padding: 10px;">
+                    <h5 style="margin: 0;">@item.ProductName</h5>
+                    <p style="margin: 5px 0;">@item.Price ₹</p>
+                    <p style="margin: 5px 0;">
+                        @*@item.Quantity>0?"Available":"Not Available"*@
+                        @if (item.Quantity > 0)
+                        {
+                            using (Html.BeginForm("AddToCart", "Home", new { productId = item.ProductId, url = "Index" }, FormMethod.Post))
+                            {
+                                <button type="submit" style="float:right"><i class="fa fa-shopping-cart"></i></button>
+
+                            }
+                        <p>Available</p>
+                    }
+                    else
+
+                    {
+                        <p> Not Available </p>
+                    }
+                        </p>
+                        <div>
+                            @if (item.IsFeatured == true)
+                            {
+                                <p class="product-item-badge" style="background-color: #ff0000; color: #fff; padding: 5px; display: flex;letter-spacing:2px ">New</p>
+                            }
+                            else
+                            {
+                                <p class="product-item-badge" style="background-color: #ff0000; color: #fff; padding: 5px; display: flex; letter-spacing:2px">Old</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+
+</div>
+
+
+<div class="container">
+    <br />
+    @Html.PagedListPager(Model.ListOfProducts, page => Url.Action("Index", new { page, search = Request.QueryString["search"] })) @*, new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded, DisplayItemSliceAndTotal = true }*@
+
+</div>
+
+
+@*<div class="jumbotron">
+        <p class="lead">Professional Developer.</p>
+        <p><a href="https://portfolio-eight-alpha-57.vercel.app/" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    </div>*@
